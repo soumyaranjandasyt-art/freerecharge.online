@@ -1,0 +1,38 @@
+# Robots.txt for Free Recharge - Mobile Recharge at ₹5
+# https://freerecharge.online/
+
+User-agent: *
+Allow: /
+Allow: /image/
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.json$
+Disallow: /script.js$
+Disallow: /styles.css$
+
+# Sitemap location
+Sitemap: https://freerecharge.online/sitemap.xml
+
+# Crawl delay (optional - helps with server load)
+Crawl-delay: 1
+
+# Block bad bots (optional)
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+# Allow Google bots
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Googlebot-Image
+Allow: /image/
+
+# Allow Bing bot
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+

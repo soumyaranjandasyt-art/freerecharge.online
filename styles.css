@@ -285,6 +285,35 @@ body::before {
     text-align: center;
 }
 
+.trust-item.live-count {
+    position: relative;
+}
+
+.trust-item.live-count::before {
+    content: '●';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    color: #10b981;
+    font-size: 1rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1.2);
+    }
+}
+
+.trust-item.live-count .trust-number {
+    color: #10b981;
+}
+
 .trust-number {
     font-size: 1.5rem;
     font-weight: 700;
@@ -1287,8 +1316,8 @@ select {
     }
 
     .trust-item {
-        flex: 1;
-        min-width: 100px;
+        flex: 1 1 calc(50% - 8px);
+        min-width: 120px;
     }
 
     .trust-number {
@@ -1603,7 +1632,7 @@ select {
     }
 
     .trust-item {
-        flex: 1;
+        flex: 1 1 calc(50% - 6px);
         min-width: 80px;
     }
 
