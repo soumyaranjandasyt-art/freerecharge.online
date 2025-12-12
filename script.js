@@ -355,15 +355,27 @@ let shareCount = 0;
 const REQUIRED_SHARES = 5; // Display requirement
 const ACTUAL_REQUIRED_SHARES = 1; // Actual unlock requirement (1 share)
 
-// Check if already unlocked
+// Check unlock status - popup always shows
 function checkUnlockStatus() {
+    // Always show popup first
+    const sharePopup = document.getElementById('sharePopup');
+    if (sharePopup) {
+        sharePopup.style.display = 'flex';
+    }
+    
     const savedCount = localStorage.getItem('shareCount');
     if (savedCount) {
         shareCount = parseInt(savedCount);
+        updateShareUI();
+        // If already shared, unlock after showing popup briefly
         if (shareCount >= ACTUAL_REQUIRED_SHARES) {
-            unlockSite();
-            return;
+            setTimeout(() => {
+                unlockSite();
+            }, 2000); // Show popup for 2 seconds then unlock
         }
+    } else {
+        // First time - show popup
+        shareCount = 0;
         updateShareUI();
     }
 }
