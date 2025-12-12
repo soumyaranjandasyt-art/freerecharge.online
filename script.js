@@ -33,21 +33,32 @@ const operatorLogos = {
 // State names mapping
 const stateNames = {
     'andhra-pradesh': 'Andhra Pradesh',
+    'arunachal-pradesh': 'Arunachal Pradesh',
     'assam': 'Assam',
     'bihar': 'Bihar',
-    'delhi': 'Delhi',
+    'chhattisgarh': 'Chhattisgarh',
+    'goa': 'Goa',
     'gujarat': 'Gujarat',
     'haryana': 'Haryana',
+    'himachal-pradesh': 'Himachal Pradesh',
+    'jharkhand': 'Jharkhand',
     'karnataka': 'Karnataka',
     'kerala': 'Kerala',
     'madhya-pradesh': 'Madhya Pradesh',
     'maharashtra': 'Maharashtra',
+    'manipur': 'Manipur',
+    'meghalaya': 'Meghalaya',
+    'mizoram': 'Mizoram',
+    'nagaland': 'Nagaland',
     'odisha': 'Odisha',
     'punjab': 'Punjab',
     'rajasthan': 'Rajasthan',
+    'sikkim': 'Sikkim',
     'tamil-nadu': 'Tamil Nadu',
     'telangana': 'Telangana',
+    'tripura': 'Tripura',
     'uttar-pradesh': 'Uttar Pradesh',
+    'uttarakhand': 'Uttarakhand',
     'west-bengal': 'West Bengal'
 };
 
@@ -225,7 +236,7 @@ function showPaymentPage(mobile, operator, state, planAmount) {
         <span>${operatorNames[operator]}</span>
     `;
     
-    document.getElementById('paymentState').textContent = stateNames[state];
+    document.getElementById('paymentState').textContent = stateNames[state] || stateSelect.options[stateSelect.selectedIndex]?.text || state;
     document.getElementById('paymentPlan').textContent = `₹${planAmount} - ${selectedPlanData.validity} (${selectedPlanData.data})`;
     document.getElementById('paymentAmount').textContent = '₹5';
     

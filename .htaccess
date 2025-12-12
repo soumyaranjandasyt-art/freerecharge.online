@@ -69,3 +69,4 @@ ErrorDocument 500 /500.html
 # UTF-8 encoding
 AddDefaultCharset UTF-8
 
+
