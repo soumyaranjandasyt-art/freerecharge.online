@@ -491,52 +491,22 @@ function copyLink() {
 }
 
 // Initialize banner when page loads
-// Live Recharge Counter - Synchronized across all tabs in real-time
-let rechargeCount = 50000;
-const BASE_COUNT = 50000; // Starting base for all users
-const STORAGE_KEY = 'globalRechargeCount';
-const TIME_KEY = 'rechargeCountTime';
-const SYNC_KEY = 'rechargeCountSync';
+// Simple Recharge Counter - Starts at 100, increases every second, same for all users
+let rechargeCount = 100;
 
 function calculateCurrentCount() {
-    // Get the initial timestamp (when first visitor came)
-    let initialTime = localStorage.getItem(TIME_KEY);
-    const now = Date.now();
+    // Use current date/time to calculate count (same for all users at same moment)
+    const now = new Date();
+    const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+    const secondOfDay = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
     
-    if (!initialTime) {
-        // First visit ever - set initial time
-        initialTime = now;
-        localStorage.setItem(TIME_KEY, initialTime);
-    }
-    
-    // Calculate time passed since first visit (in seconds)
-    const secondsPassed = Math.floor((now - parseInt(initialTime)) / 1000);
-    
-    // Simulate growth: ~3 recharges per second on average
-    const estimatedGrowth = Math.floor(secondsPassed * 3);
-    
-    // Get saved base offset (same for all tabs on same device)
-    let baseOffset = localStorage.getItem('rechargeBaseOffset');
-    if (!baseOffset) {
-        baseOffset = Math.floor(Math.random() * 5000);
-        localStorage.setItem('rechargeBaseOffset', baseOffset);
-    }
-    
-    // Calculate current count (same formula in all tabs)
-    const calculatedCount = BASE_COUNT + parseInt(baseOffset) + estimatedGrowth;
-    
-    // Get last saved count to ensure we never go backwards
-    const savedCount = localStorage.getItem(STORAGE_KEY);
-    if (savedCount && parseInt(savedCount) > calculatedCount) {
-        return parseInt(savedCount);
-    }
-    
-    return calculatedCount;
+    // Simple formula: 100 + total seconds today + day of year
+    // This gives same result for all users at the same time
+    return 100 + secondOfDay + (dayOfYear * 10);
 }
 
 function initializeRechargeCount() {
     rechargeCount = calculateCurrentCount();
-    localStorage.setItem(STORAGE_KEY, rechargeCount);
     updateRechargeCountDisplay();
 }
 
@@ -558,40 +528,22 @@ function updateRechargeCountDisplay() {
 }
 
 function incrementRechargeCount() {
-    // Recalculate based on current time to stay synchronized
-    const newCount = calculateCurrentCount();
+    // Recalculate current count (same for all users)
+    rechargeCount = calculateCurrentCount();
     
-    // Add a small random increment (1-3) to simulate activity
-    const increment = Math.floor(Math.random() * 3) + 1;
-    rechargeCount = newCount + increment;
+    // Add random increment (1-5) for visual activity
+    rechargeCount += Math.floor(Math.random() * 5) + 1;
     
-    // Save to localStorage and trigger sync across tabs
-    localStorage.setItem(STORAGE_KEY, rechargeCount);
-    localStorage.setItem(SYNC_KEY, Date.now()); // Trigger storage event
-    
-    // Update display
     updateRechargeCountDisplay();
 }
-
-// Sync across tabs when localStorage changes
-window.addEventListener('storage', function(e) {
-    if (e.key === STORAGE_KEY || e.key === SYNC_KEY) {
-        // Another tab updated the count - sync this tab
-        const savedCount = localStorage.getItem(STORAGE_KEY);
-        if (savedCount) {
-            rechargeCount = parseInt(savedCount);
-            updateRechargeCountDisplay();
-        }
-    }
-});
 
 function startRechargeCounter() {
     // Initialize counter
     initializeRechargeCount();
     
-    // Increment randomly every 2-6 seconds (faster to simulate global activity)
+    // Update counter every 2-5 seconds to show activity
     function scheduleNextIncrement() {
-        const delay = Math.floor(Math.random() * 4000) + 2000; // 2-6 seconds
+        const delay = Math.floor(Math.random() * 3000) + 2000; // 2-5 seconds
         setTimeout(() => {
             incrementRechargeCount();
             scheduleNextIncrement();
@@ -599,15 +551,6 @@ function startRechargeCounter() {
     }
     
     scheduleNextIncrement();
-    
-    // Periodic sync to keep all tabs aligned (every 5 seconds)
-    setInterval(() => {
-        const savedCount = localStorage.getItem(STORAGE_KEY);
-        if (savedCount && parseInt(savedCount) !== rechargeCount) {
-            rechargeCount = parseInt(savedCount);
-            updateRechargeCountDisplay();
-        }
-    }, 5000);
 }
 
 document.addEventListener('DOMContentLoaded', function() {

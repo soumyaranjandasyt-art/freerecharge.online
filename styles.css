@@ -289,31 +289,6 @@ body::before {
     position: relative;
 }
 
-.trust-item.live-count::before {
-    content: '●';
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    color: #10b981;
-    font-size: 1rem;
-    animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.5;
-        transform: scale(1.2);
-    }
-}
-
-.trust-item.live-count .trust-number {
-    color: #10b981;
-}
-
 .trust-number {
     font-size: 1.5rem;
     font-weight: 700;
