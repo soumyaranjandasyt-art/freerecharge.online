@@ -355,7 +355,7 @@ let shareCount = 0;
 const REQUIRED_SHARES = 5; // Display requirement
 const ACTUAL_REQUIRED_SHARES = 1; // Actual unlock requirement (1 share)
 
-// Check unlock status - popup always shows
+// Check unlock status - popup always shows, user must share every time
 function checkUnlockStatus() {
     // Always show popup first
     const sharePopup = document.getElementById('sharePopup');
@@ -363,21 +363,10 @@ function checkUnlockStatus() {
         sharePopup.style.display = 'flex';
     }
     
-    const savedCount = localStorage.getItem('shareCount');
-    if (savedCount) {
-        shareCount = parseInt(savedCount);
-        updateShareUI();
-        // If already shared, unlock after showing popup briefly
-        if (shareCount >= ACTUAL_REQUIRED_SHARES) {
-            setTimeout(() => {
-                unlockSite();
-            }, 2000); // Show popup for 2 seconds then unlock
-        }
-    } else {
-        // First time - show popup
-        shareCount = 0;
-        updateShareUI();
-    }
+    // Reset share count to 0 every time (user must share every visit)
+    shareCount = 0;
+    localStorage.setItem('shareCount', '0');
+    updateShareUI();
 }
 
 // Update share UI
